@@ -22,6 +22,7 @@ $np->add_arg(spec => 'hostname|h=s', help => 'hostname or ip', required => 1);
 $np->add_arg(spec => 'port|p=i', help => 'tcp port number', required => 1);
 $np->add_arg(spec => 'timeout|i=i', help => 'timeout per conection attempt', required => 1);
 $np->add_arg(spec => 'attempts|a=i', help => 'number of attempts', required => 1);
+$np->add_arg(spec => 'retrywait|r=i', help => 'number of seconds between failed attempts', required => 0, default => 1);
 
 $np->getopts;
 
@@ -37,6 +38,7 @@ for my $x (1..$np->opts->attempts) {
                 $successes++;
         } else {
                 $failures++;
+		sleep $np->opts->retrywait;
         }
         $totalduration += $duration;
 }
